@@ -9,7 +9,7 @@ type PreviewBarProps = {
 
 const PreviewBar: React.FC<PreviewBarProps> = ({ vidchainData, player, currentClipIndex, confirmPreview }) => {
     return (
-        <div className="flex flex-col gap-2 border items-center border-gray-300 p-4 rounded-lg">
+        <div className="flex flex-col h-128 overflow-y-auto gap-2 border items-center border-gray-300 p-4 rounded-lg">
             <h2 className="text-xl font-semibold">Preview</h2>
             {vidchainData?.clips.map((clip, index) => (
 
@@ -30,13 +30,20 @@ const PreviewBar: React.FC<PreviewBarProps> = ({ vidchainData, player, currentCl
                                 });
                             }
                         }}
-                        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 cursor-pointer"
                     >
                         Load
                     </button>
                 </div>
             ))}
-            <a onClick={confirmPreview} className="hover:underline cursor-pointer">Confirm!</a>
+            <div className="bottom-0 h-full p-2">
+                <a
+                    onClick={confirmPreview}
+                    className="w-full p-3 bg-blue-600 text-white font-semibold hover:bg-blue-700 rounded-lg cursor-pointer text-center"
+                >
+                    Confirm!
+                </a>
+            </div>
         </div>
     );
 }
