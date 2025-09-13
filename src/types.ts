@@ -4,7 +4,8 @@ export type VidchainObject = {
 }
 
 export type Clip = {
-    url: string,
+    videoId: string,
+    thumbnail: string,
     start: number,
     end: number
 }

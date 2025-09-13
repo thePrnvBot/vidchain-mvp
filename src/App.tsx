@@ -1,6 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
 import type { VidchainObject } from "./types";
 import { usePlayerStore, useVidchainStore } from "./stores/useVidchainStore";
+import { toVidchainObject } from "./libs/utils";
+import PreviewBar from "./components/previewBar";
 
 declare global {
   interface Window {
@@ -54,7 +56,6 @@ const YouTubePlayer: React.FC = () => {
         events: {
           onReady: (event) => {
             setIsReady(true);
-            event.target.playVideo();
           },
           onStateChange: (event) => {
             // When video ends, play next clip
@@ -85,8 +86,7 @@ const YouTubePlayer: React.FC = () => {
       const nextClip = vidchainState && vidchainState.clips ? vidchainState.clips[nextIndex] : null;
       console.log("Loading next clip:", nextClip);
       if (!nextClip) return;
-      const videoIdMatch = nextClip.url.match(/v=([^&]+)/);
-      const videoId = videoIdMatch ? videoIdMatch[1] : null;
+      const videoId = nextClip.videoId;
       const player = usePlayerStore.getState().player;
       if (videoId) {
         player?.loadVideoById({
@@ -103,70 +103,60 @@ const YouTubePlayer: React.FC = () => {
 
   // Parse JSON input and update Zustand store
   const parseJSON = () => {
-    if (!player || !jsonInputField.current) return;
+    if (!jsonInputField.current) return;
 
     try {
-      const parsed: VidchainObject = JSON.parse(jsonInputField.current.value);
-      useVidchainStore.setState({ vidchainData: parsed });
+      const preProcessedParse = JSON.parse(jsonInputField.current.value.trim());
+      const processedParse = toVidchainObject(preProcessedParse);
+      useVidchainStore.setState({ vidchainData: processedParse });
       currentClipIndex.current = 0;
-
-      if (vidchainData && vidchainData.clips.length > 0) {
-        const firstClip = vidchainData.clips[0];
-        const videoIdMatch = firstClip.url.match(/v=([^&]+)/);
-        const videoId = videoIdMatch ? videoIdMatch[1] : null;
-        if (videoId) {
-          player.loadVideoById({
-            videoId,
-            startSeconds: firstClip.start,
-            endSeconds: firstClip.end,
-          });
-        }
-      }
     } catch (err) {
       console.error("Invalid JSON:", err);
     }
+
+    console.log("Parsed JSON:", useVidchainStore.getState().vidchainData);
   };
+
+  const confirmPreview = () => {
+    if (!player) return;
+    if (vidchainData && vidchainData.clips.length > 0) {
+      const firstClip = vidchainData.clips[0];
+      const videoId = firstClip.videoId
+      if (videoId) {
+        player.loadVideoById({
+          videoId,
+          startSeconds: firstClip.start,
+          endSeconds: firstClip.end,
+        });
+      }
+    }
+  }
 
   return (
     <div className="flex flex-col items-center gap-4 p-8">
-      <h1 className="text-2xl font-bold">{vidchainData?.sequenceTitle ?? "Vidchain"}</h1>
-      <div ref={playerRef} className="rounded-lg" />
+      <div className="flex flex-row items-center gap-4 p-8">
+        <div className="flex flex-col gap-4 items-center">
+          <h1 className="text-2xl font-bold">{vidchainData?.sequenceTitle ?? "Vidchain"}</h1>
+          <div ref={playerRef} className="rounded-lg" />
 
-      {isReady && (
-        <div className="flex gap-4">
-          <button onClick={() => player?.playVideo()} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Play</button>
-          <button onClick={() => player?.pauseVideo()} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Pause</button>
-          <button onClick={() => player?.stopVideo()} className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Stop</button>
+          {isReady && (
+            <div className="flex gap-4">
+              <button onClick={() => player?.playVideo()} className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:underline">Play</button>
+              <button onClick={() => player?.pauseVideo()} className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 hover:underline">Pause</button>
+              <button onClick={() => player?.stopVideo()} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 hover:underline">Stop</button>
+            </div>
+          )}
         </div>
-      )}
 
-      {vidchainData?.clips.map((clip, index) => (
-        <div key={index} className="flex flex-row gap-2 items-center">
-          <p>Clip {index + 1}</p>
-          <p>Duration: {clip.end - clip.start}s</p>
-          <button
-            onClick={() => {
-              if (!player) return;
-              const videoIdMatch = clip.url.match(/v=([^&]+)/);
-              const videoId = videoIdMatch ? videoIdMatch[1] : null;
-              if (videoId) {
-                currentClipIndex.current = index;
-                player.loadVideoById({
-                  videoId,
-                  startSeconds: clip.start,
-                  endSeconds: clip.end,
-                });
-              }
-            }}
-            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-          >
-            Load Clip
-          </button>
-        </div>
-      ))}
+        {vidchainData && (
+          <>
+            <PreviewBar vidchainData={vidchainData} player={player} currentClipIndex={currentClipIndex} confirmPreview={confirmPreview} />
 
-      <textarea ref={jsonInputField} className="w-1/2 h-32 p-2 border border-gray-300 rounded-lg" placeholder="Insert Vidchain JSON here!" />
-      <a onClick={parseJSON} className="hover:underline cursor-pointer">Confirm!</a>
+          </>
+        )}
+      </div>
+      <textarea ref={jsonInputField} className="w-1/2 h-32 p-2 border border-gray-300 rounded-lg" placeholder="Insert Vidchain JSON here!" onChange={parseJSON} />
+
     </div>
   );
 };
