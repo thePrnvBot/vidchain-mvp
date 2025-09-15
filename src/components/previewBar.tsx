@@ -1,4 +1,5 @@
 import { type VidchainObject } from "../types";
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 type PreviewBarProps = {
     vidchainData: VidchainObject | null;
@@ -9,8 +10,8 @@ type PreviewBarProps = {
 
 const PreviewBar: React.FC<PreviewBarProps> = ({ vidchainData, player, currentClipIndex, confirmPreview }) => {
     return (
-        <div className="flex flex-col h-128 overflow-y-auto gap-2 border items-center border-gray-300 p-4 rounded-lg">
-            <h2 className="text-xl font-semibold">Preview</h2>
+        <ScrollArea className="h-96 w-full p-4 border border-gray-300 rounded-lg">
+            <h2 className="text-xl font-semibold mb-2">Preview</h2>
             {vidchainData?.clips.map((clip, index) => (
 
                 <div key={index} className="flex flex-row items-center gap-2 border border-gray-300 p-4 rounded-lg">
@@ -36,7 +37,7 @@ const PreviewBar: React.FC<PreviewBarProps> = ({ vidchainData, player, currentCl
                     </button>
                 </div>
             ))}
-            <div className="bottom-0 h-full p-2">
+            <div className="bottom-0 h-full p-2 mt-2">
                 <a
                     onClick={confirmPreview}
                     className="w-full p-3 bg-blue-600 text-white font-semibold hover:bg-blue-700 rounded-lg cursor-pointer text-center"
@@ -44,7 +45,7 @@ const PreviewBar: React.FC<PreviewBarProps> = ({ vidchainData, player, currentCl
                     Confirm!
                 </a>
             </div>
-        </div>
+        </ScrollArea>
     );
 }
 

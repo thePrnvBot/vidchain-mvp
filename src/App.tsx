@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { usePlayerStore, useVidchainStore } from "./stores/useVidchainStore";
 import { toVidchainObject } from "./libs/utils";
 import PreviewBar from "./components/previewBar";
+import { Textarea } from "./components/ui/textarea";
 
 declare global {
   interface Window {
@@ -150,11 +151,10 @@ const YouTubePlayer: React.FC = () => {
         {vidchainData && (
           <>
             <PreviewBar vidchainData={vidchainData} player={player} currentClipIndex={currentClipIndex} confirmPreview={confirmPreview} />
-
           </>
         )}
       </div>
-      <textarea ref={jsonInputField} className="w-1/2 h-32 p-2 border border-gray-300 rounded-lg" placeholder="Insert Vidchain JSON here!" onChange={parseJSON} />
+      <Textarea ref={jsonInputField} className="w-1/2 h-32 p-2 border border-gray-300 rounded-lg" placeholder="Insert Vidchain JSON here!" onChange={parseJSON} />
 
     </div>
   );

@@ -2,6 +2,12 @@
   "files": [],
   "compilerOptions": {
     "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
   },
   "references": [
     {
