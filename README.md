@@ -1,69 +1,56 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 📺 Vidchain
 
-Currently, two official plugins are available:
+A viewing experience builder that lets you chain video clips from any youtube video by passing in a list of urls, start times and stop times.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📖 Table of Contents  
+- About
+- Tech Stack
+- Installation
+- Usage
 
-## Expanding the ESLint configuration
+## 🔎 About  
+Vidchain aims to solve the problem of improper curation and lengthy fluff in videos by letting anyone create their own granular playlist of clips, by passing in the video url, start time and stop time in seconds into the program to create a seamless viewing experience between them.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Usecases:
+- Mastery Based Courses - Course creators can reuse segments from their videos to build seperate viewing experiences for Beginner, Intermediate and Expert learners.
+- Video Compilation - Video creators can compile clips without the need of a video editor to build compilations.
+- Youtube Rabbitholes - Share the rabbit hole you went down in youtube to your friends exactly how you saw it.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠 Tech Stack  
+- **Frontend:** React / Tailwind  
+- **Backend:** Youtube Player API
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## ⚙️ Installation  
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Clone the repo:  
+```bash
+git clone https://github.com/thePrnvBot/vidchain-mvp.git
+cd vidchain-mvp
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
+## Usage
+Pass in a JSON object of this type to load your own video experience, verify the videos on the preview bar and scroll to the bottom to confirm it. Your video sequence should start playing on the video player.
+```json
+{
+  "sequenceTitle": "My Sequence",
+  "clips": [
+    {
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "start": 10,
+      "end": 20
     },
-  },
-])
+    {
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "start": 0,
+      "end": 10
+    }
+  ]
+}
 ```
+
+## Screenshots
+
+<img width="1458" height="1217" alt="image" src="https://github.com/user-attachments/assets/eb7c4606-5b2e-434d-b173-eaf7fdab43f7" />
+
+
