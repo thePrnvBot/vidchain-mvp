@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from "react";
-import type { VidchainObject } from "./types";
 import { usePlayerStore, useVidchainStore } from "./stores/useVidchainStore";
 import { toVidchainObject } from "./libs/utils";
 import PreviewBar from "./components/previewBar";
@@ -54,7 +53,7 @@ const YouTubePlayer: React.FC = () => {
         videoId: videoId || "dQw4w9WgXcQ",
         playerVars: { playsinline: 1 },
         events: {
-          onReady: (event) => {
+          onReady: () => {
             setIsReady(true);
           },
           onStateChange: (event) => {
