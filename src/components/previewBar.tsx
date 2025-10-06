@@ -11,13 +11,13 @@ type PreviewBarProps = {
 const PreviewBar: React.FC<PreviewBarProps> = ({ vidchainData, player, currentClipIndex, confirmPreview }) => {
     return (
         <ScrollArea className="h-96 w-full p-4 border border-gray-300 rounded-lg">
-            <h2 className="text-xl font-semibold mb-2">Preview</h2>
+            <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">Preview</h2>
             {vidchainData?.clips.map((clip, index) => (
 
-                <div key={index} className="flex flex-row items-center gap-2 border border-gray-300 p-4 rounded-lg">
-                    <p>Clip {index + 1}</p>
+                <div key={index} className="flex flex-row items-center gap-2 border border-gray-300 p-4 rounded-lg mt-2">
+                    <p className="leading-7">Clip {index + 1}</p>
                     <img src={clip.thumbnail} alt={`Thumbnail for clip ${index + 1}`} className="w-32 h-18 object-cover rounded" />
-                    <p>Duration: {clip.end - clip.start}s</p>
+                    <p className="leading-7">Duration: {clip.end - clip.start}s</p>
                     <button
                         onClick={() => {
                             if (!player) return;
@@ -31,7 +31,7 @@ const PreviewBar: React.FC<PreviewBarProps> = ({ vidchainData, player, currentCl
                                 });
                             }
                         }}
-                        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 cursor-pointer"
+                        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 cursor-pointer scroll-m-20 text-md font-semibold tracking-tight"
                     >
                         Load
                     </button>
@@ -40,7 +40,7 @@ const PreviewBar: React.FC<PreviewBarProps> = ({ vidchainData, player, currentCl
             <div className="bottom-0 h-full p-2 mt-2">
                 <a
                     onClick={confirmPreview}
-                    className="w-full p-3 bg-blue-600 text-white font-semibold hover:bg-blue-700 rounded-lg cursor-pointer text-center"
+                    className="w-full p-3 bg-blue-600 text-white font-semibold hover:bg-blue-700 rounded-lg cursor-pointer text-center scroll-m-20 text-md tracking-tight"
                 >
                     Confirm!
                 </a>

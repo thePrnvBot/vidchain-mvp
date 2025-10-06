@@ -20,6 +20,20 @@ const YouTubePlayer: React.FC = () => {
 
   // Zustand store
   const vidchainData = useVidchainStore((state) => state.vidchainData);
+  const placeholder = `{ 
+  "sequenceTitle": "My Sequence", 
+  "clips": [ 
+    { 
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ", 
+      "start": 10, 
+      "end": 20 
+    }, 
+    { 
+    "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ", 
+    "start": 0, 
+    "end": 10 
+    }]
+  }`;
 
   // Initialize YouTube player
   useEffect(() => {
@@ -136,14 +150,14 @@ const YouTubePlayer: React.FC = () => {
     <div className="flex flex-col items-center gap-4 p-8">
       <div className="flex flex-row items-center gap-4 p-8">
         <div className="flex flex-col gap-4 items-center">
-          <h1 className="text-2xl font-bold">{vidchainData?.sequenceTitle ?? "Vidchain"}</h1>
+          <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">{vidchainData?.sequenceTitle ?? "Vidchain"}</h1>
           <div ref={playerRef} className="rounded-lg" />
 
           {isReady && (
             <div className="flex gap-4">
-              <button onClick={() => player?.playVideo()} className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 cursor-pointer">Play</button>
-              <button onClick={() => player?.pauseVideo()} className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 cursor-pointer">Pause</button>
-              <button onClick={() => player?.stopVideo()} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 cursor-pointer">Stop</button>
+              <button onClick={() => player?.playVideo()} className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 cursor-pointer scroll-m-20 text-sm font-semibold tracking-tight">Play</button>
+              <button onClick={() => player?.pauseVideo()} className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 cursor-pointer scroll-m-20 text-sm font-semibold tracking-tight">Pause</button>
+              <button onClick={() => player?.stopVideo()} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 cursor-pointer scroll-m-20 text-sm font-semibold tracking-tight">Stop</button>
             </div>
           )}
         </div>
@@ -154,7 +168,7 @@ const YouTubePlayer: React.FC = () => {
           </>
         )}
       </div>
-      <Textarea ref={jsonInputField} className="w-1/2 h-32 p-2 border border-gray-300 rounded-lg" placeholder="Insert Vidchain JSON here!" onChange={parseJSON} />
+      <Textarea ref={jsonInputField} className="w-1/2 h-80 p-2 border border-gray-300 rounded-lg" placeholder={placeholder} onChange={parseJSON} />
 
     </div>
   );
