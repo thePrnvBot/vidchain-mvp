@@ -37,12 +37,12 @@ const PreviewBar: React.FC<PreviewBarProps> = ({ vidchainData, player, currentCl
                     </button>
                 </div>
             ))}
-            <div className="bottom-0 h-full p-2 mt-2">
+            <div className="sticky bottom-0 left-0 right-0 p-4 bg-[#242424]/70 backdrop-blur-sm">
                 <a
                     onClick={confirmPreview}
-                    className="w-full p-3 bg-blue-600 text-white font-semibold hover:bg-blue-700 rounded-lg cursor-pointer text-center scroll-m-20 text-md tracking-tight"
+                    className="block w-full p-3 bg-blue-600 text-white font-semibold hover:bg-blue-700 active:bg-blue-800 rounded-lg cursor-pointer text-center text-md tracking-tight transition-colors duration-200"
                 >
-                    Confirm!
+                    Scroll & Confirm!
                 </a>
             </div>
         </ScrollArea>
