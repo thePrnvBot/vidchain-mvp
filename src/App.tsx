@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { usePlayerStore, useVidchainStore } from "./stores/useVidchainStore";
-import { toVidchainObject } from "./libs/utils";
+import { toVidchainObject } from "./lib/utils";
 import PreviewBar from "./components/previewBar";
 import { Textarea } from "./components/ui/textarea";
 
@@ -65,7 +65,7 @@ const YouTubePlayer: React.FC = () => {
       const newPlayer = new window.YT.Player(playerRef.current, {
         height: "390",
         width: "640",
-        videoId: videoId || "dQw4w9WgXcQ",
+        videoId: videoId || "qAQahr6Eddg",
         playerVars: { playsinline: 1 },
         events: {
           onReady: () => {
